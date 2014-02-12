@@ -1,7 +1,9 @@
 from itertools import chain, groupby
 import random
+import datetime
 
 from django.db import models
+from django.db.models.query_utils import Q
 from django.utils.translation import ugettext_lazy as _
 
 from utils import shuffled
@@ -79,10 +81,36 @@ class Carousel(models.Model):
         return chain.from_iterable(shuffled(elements) for _, elements in grouped)
 
 
+class CarouselElementQuerySet(models.query.QuerySet):
+
+    def published(self):
+        return self.filter(published=True)
+
+    def active(self):
+        return self.published().filter(
+            Q(start_date__isnull=True) | Q(start_date__lte=datetime.datetime.now()),
+            Q(end_date__isnull=True) | Q(end_date__gte=datetime.datetime.now())
+        )
+
+
+class CarouselElementManager(models.Manager):
+
+    def get_query_set(self):
+        return CarouselElementQuerySet(self.model, using=self._db)
+
+    def published(self):
+        return self.get_query_set().published()
+
+    def active(self):
+        return self.get_query_set().active()
+
+
 class CarouselElement(models.Model):
     POSITION_HELP_TEXT = _("The position of the element in the sequence or "
                            "the weight of the element in the randomization "
-                           "process (depending on the carousel\'s distribution).")
+                           "process (depending on the carousel's distribution).")
+    START_DATE_HELP_TEXT = _("If this field is filled show starts with a specified date")
+    END_DATE_HELP_TEXT = _("If this field is filled show ending with a specified date")
     carousel = models.ForeignKey(Carousel, verbose_name=_('carousel'),
                                  related_name='elements')
     name = models.CharField(_('name'), max_length=50)
@@ -90,11 +118,16 @@ class CarouselElement(models.Model):
     url = models.URLField(_('URL'), blank=True)
     position = models.PositiveIntegerField(_('position'), default=1,
                                            help_text=POSITION_HELP_TEXT)
+    published = models.BooleanField(_('published'), default=1)
+    start_date = models.DateTimeField(_('start date'), blank=True, null=True, help_text=START_DATE_HELP_TEXT)
+    end_date = models.DateTimeField(_('end date'), blank=True, null=True, help_text=END_DATE_HELP_TEXT)
+
+    objects = CarouselElementManager()
 
     def __unicode__(self):
         return self.name
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('carousel element')
         verbose_name_plural = _('carousel elements')
         ordering = ('position', 'name')
