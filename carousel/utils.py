@@ -1,5 +1,6 @@
 import random
 
+
 def weighted_pick(x, key_weight=None):
     """Returns one element from the sequence x.
     A "heavy" element is more likely to be picked.
@@ -16,6 +17,7 @@ def weighted_pick(x, key_weight=None):
         if target <= 0:
             return e[0]
 
+
 def weighted_shuffle(x, key_weight=None):
     """Shuffles the sequence x in place.
     Elements that are "heavier" will be more likely to be at the beginning.
@@ -30,6 +32,7 @@ def weighted_shuffle(x, key_weight=None):
     for i in reversed(xrange(1, len(x))):
         j = weighted_pick(weights[:i+1])
         x[i], x[j] = x[j], x[i]
+
 
 def shuffled(iterable, weight=None):
     """

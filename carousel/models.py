@@ -4,7 +4,8 @@ import random
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from utils import weighted_shuffle, shuffled
+from utils import shuffled
+
 
 class Carousel(models.Model):
     class DISTRIBUTIONS:
@@ -66,7 +67,7 @@ class Carousel(models.Model):
         The `position` attribute of each element act as a weight for the randomization.
         Elements that are "heavier" are more likely to be at the beginning of the list.
         """
-        return suffled(elements, weight=lambda e: e.position)
+        return shuffled(self.elements.all(), weight=lambda e: e.position)
 
     def _get_elements_cluster_random(self):
         """

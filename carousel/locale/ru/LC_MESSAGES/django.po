@@ -1,0 +1,80 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-12 17:11+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: models.py:17
+msgid "sequential"
+msgstr "последовательно"
+
+#: models.py:18
+msgid "random"
+msgstr "случайно"
+
+#: models.py:19
+msgid "weighted random"
+msgstr "случайно с весами"
+
+#: models.py:20
+msgid "cluster random"
+msgstr "случайно с группировкой"
+
+#: models.py:23 models.py:87
+msgid "name"
+msgstr "название"
+
+#: models.py:24
+msgid "distribution"
+msgstr "режим показа"
+
+#: models.py:32 models.py:85
+msgid "carousel"
+msgstr "карусель"
+
+#: models.py:33
+msgid "carousels"
+msgstr "карусели"
+
+#: models.py:82
+msgid ""
+"The position of the element in the sequence or the weight of the element in "
+"the randomization process (depending on the carousel's distribution)."
+msgstr ""
+"Положение элемента в последовательности или вес элемента в "
+"режиме показа \"случайно с весами\" (зависит от режима показа в карусели)."
+
+#: models.py:88
+msgid "image"
+msgstr "изображение"
+
+#: models.py:89
+msgid "URL"
+msgstr ""
+
+#: models.py:90
+msgid "position"
+msgstr "позиция"
+
+#: models.py:97
+msgid "carousel element"
+msgstr "элемент карусели"
+
+#: models.py:98
+msgid "carousel elements"
+msgstr "элементы карусели"
