@@ -5,7 +5,7 @@ setup(
     version=__import__('carousel').__version__,
     description='Helpers to generate dynamic carousels.',
     author='Fabika Team',
-    author_email='it@gmail.com',
+    author_email='it@fabika.ru',
     url='http://github.com/fabika/django-carousel',
     download_url='http://github.com/fabika/django-carousel/downloads',
     license='BSD',
