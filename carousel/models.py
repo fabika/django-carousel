@@ -23,6 +23,7 @@ class Carousel(models.Model):
             (CLUSTER_RANDOM, _("cluster random"))
         ]
 
+    slug = models.SlugField(_('slug'), max_length=50, unique=True)
     name = models.CharField(_('name'), max_length=50, unique=True)
     distribution = models.PositiveSmallIntegerField(_('distribution'),
                                                     choices=DISTRIBUTIONS.choices,
@@ -31,7 +32,7 @@ class Carousel(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('carousel')
         verbose_name_plural = _('carousels')
         ordering = ('name', )

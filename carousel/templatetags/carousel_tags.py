@@ -26,6 +26,17 @@ def do_carousel_with_name(parser, token):
     return CarouselNode(name=carousel_name, max_items=max_items)
 
 
+@register.tag('carousel_with_slug')
+def do_carousel_with_name(parser, token):
+    """
+    {% carousel_with_name $carousel_name [max_items] %}
+    """
+    bits = token.split_contents()
+    carousel_slug = bits[1]
+    max_items = bits[2] if len(bits) > 2 else None
+    return CarouselNode(slug=carousel_slug, max_items=max_items)
+
+
 @register.tag('carousel_with_id')
 def do_carousel_with_id(parser, token):
     """
@@ -38,26 +49,33 @@ def do_carousel_with_id(parser, token):
 
 
 class CarouselNode(template.Node):
-    def __init__(self, object=None, name=None, id=None, max_items=None):
+    def __init__(self, object=None, name=None, slug=None, id=None, max_items=None):
         self.carousel_object = object
         self.carousel_name = name
+        self.carousel_slug = slug
         self.carousel_id = id
         self.max_items = max_items
-    
-    
+
     def get_object(self, context):
         """
         Retrieves the object from the database according to the context.
         """
-        obj, name, id = self.carousel_object, self.carousel_name, self.carousel_id
+        obj, name, slug, id = self.carousel_object, self.carousel_name, self.carousel_slug, self.carousel_id
         
         if obj is not None:
             return template.Variable(obj).resolve(context)
-        
+
+        if slug is not None:
+            if slug[0] == slug[-1] and slug[0] in ('"', "'"):
+                slug = slug[1:-1]
+            else:  # a template variable was given
+                slug = template.Variable(slug).resolve(context)
+            return Carousel.objects.get(slug=slug)
+
         if name is not None:
             if name[0] == name[-1] and name[0] in ('"', "'"):
                 name = name[1:-1]
-            else: # a template variable was given
+            else:  # a template variable was given
                 name = template.Variable(name).resolve(context)
             return Carousel.objects.get(name=name)
         

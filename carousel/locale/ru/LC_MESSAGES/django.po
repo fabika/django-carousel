@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 17:11+0400\n"
+"POT-Creation-Date: 2014-02-12 18:38+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,62 +19,82 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: models.py:17
+#: models.py:20
 msgid "sequential"
 msgstr "последовательно"
 
-#: models.py:18
+#: models.py:21
 msgid "random"
 msgstr "случайно"
 
-#: models.py:19
+#: models.py:22
 msgid "weighted random"
 msgstr "случайно с весами"
 
-#: models.py:20
+#: models.py:23
 msgid "cluster random"
 msgstr "случайно с группировкой"
 
-#: models.py:23 models.py:87
+#: models.py:26 models.py:116
 msgid "name"
 msgstr "название"
 
-#: models.py:24
+#: models.py:27
 msgid "distribution"
 msgstr "режим показа"
 
-#: models.py:32 models.py:85
+#: models.py:35 models.py:114
 msgid "carousel"
 msgstr "карусель"
 
-#: models.py:33
+#: models.py:36
 msgid "carousels"
 msgstr "карусели"
 
-#: models.py:82
+#: models.py:109
 msgid ""
 "The position of the element in the sequence or the weight of the element in "
 "the randomization process (depending on the carousel's distribution)."
 msgstr ""
-"Положение элемента в последовательности или вес элемента в "
-"режиме показа \"случайно с весами\" (зависит от режима показа в карусели)."
+"Положение элемента в последовательности или вес элемента в режиме показа "
+"\"случайно с весами\" (зависит от режима показа в карусели)."
 
-#: models.py:88
+#: models.py:112
+msgid "If this field is filled show starts with a specified date"
+msgstr "Если данное поле заполенно показы стартуют с указанной даты"
+
+#: models.py:113
+msgid "If this field is filled show ending with a specified date"
+msgstr "Если данное поле заполенно показы окончиваются с указанной даты"
+
+#: models.py:117
 msgid "image"
 msgstr "изображение"
 
-#: models.py:89
+#: models.py:118
 msgid "URL"
 msgstr ""
 
-#: models.py:90
+#: models.py:119
 msgid "position"
 msgstr "позиция"
 
-#: models.py:97
+#: models.py:121
+msgid "published"
+msgstr "опубликовано"
+
+#: models.py:122
+msgid "start date"
+msgstr "дата начала"
+
+#: models.py:123
+msgid "end date"
+msgstr "дата окончания"
+
+#: models.py:131
 msgid "carousel element"
 msgstr "элемент карусели"
 
-#: models.py:98
+#: models.py:132
 msgid "carousel elements"
 msgstr "элементы карусели"
