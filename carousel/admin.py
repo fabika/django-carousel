@@ -6,9 +6,9 @@ class CarouselAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
 
 class CarouselElementAdmin(admin.ModelAdmin):
-    list_display = ('position', 'name', 'url', 'carousel')
+    list_display = ('position', 'name', 'url', 'carousel', 'start_date', 'end_date', 'published')
     list_display_links = ('name',)
-    list_editable = ('position', )
+    list_editable = ('position', 'published')
 
 admin.site.register(Carousel, CarouselAdmin)
 admin.site.register(CarouselElement, CarouselElementAdmin)

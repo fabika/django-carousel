@@ -1,9 +1,9 @@
 <ul class="carousel">
-    {% for item in elements %}
+    {% for element in elements %}
         <li class="carousel-item {% cycle 'odd' 'even' %}">
-            {% if item.url %}<a href="{{ item.url }}" class="external">{% endif %}
-            <img src="{{ item.image.url }}" alt="carousel_item" title="{{ item.name }}" height="{{ item.image.height }}" width="{{ item.image.width }}" />
-            {% if item.url %}</a>{% endif %}
+            {% if element.url %}<a href="{{ element.url }}" class="external">{% endif %}
+            <img src="{{ element.image.url }}" alt="carousel_item" title="{{ element.name }}" height="{{ element.image.height }}" width="{{ element.image.width }}" />
+            {% if element.url %}</a>{% endif %}
         </li>
     {% endfor %}
 </ul>

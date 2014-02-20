@@ -1,51 +1,39 @@
 from django import template
 from django.core.exceptions import ObjectDoesNotExist
+from django.template.loader import render_to_string
 from carousel.models import Carousel
 
 register = template.Library()
 
-@register.tag('carousel')
-def do_carousel(parser, token):
+
+def __do_carousel(token, search_field_name):
     """
     {% carousel $carousel_obj [max_items] %}
     """
     bits = token.split_contents()
-    carousel = bits[1]
+    search_field_value = bits[1]
     max_items = bits[2] if len(bits) > 2 else None
-    return CarouselNode(object=carousel, max_items=max_items)
+    return CarouselNode(max_items=max_items, **{search_field_name: search_field_value})
+
+
+@register.tag('carousel')
+def do_carousel(parser, token):
+    return __do_carousel(token, 'object')
 
 
 @register.tag('carousel_with_name')
 def do_carousel_with_name(parser, token):
-    """
-    {% carousel_with_name $carousel_name [max_items] %}
-    """
-    bits = token.split_contents()
-    carousel_name = bits[1]
-    max_items = bits[2] if len(bits) > 2 else None
-    return CarouselNode(name=carousel_name, max_items=max_items)
+    return __do_carousel(token, 'name')
 
 
 @register.tag('carousel_with_slug')
-def do_carousel_with_name(parser, token):
-    """
-    {% carousel_with_name $carousel_name [max_items] %}
-    """
-    bits = token.split_contents()
-    carousel_slug = bits[1]
-    max_items = bits[2] if len(bits) > 2 else None
-    return CarouselNode(slug=carousel_slug, max_items=max_items)
+def do_carousel_with_slug(parser, token):
+    return __do_carousel(token, 'slug')
 
 
 @register.tag('carousel_with_id')
 def do_carousel_with_id(parser, token):
-    """
-    {% carousel_with_name $carousel_id [max_items] %}
-    """
-    bits = token.split_contents()
-    carousel_id = bits[1]
-    max_items = bits[2] if len(bits) > 2 else None
-    return CarouselNode(id=carousel_id, max_items=max_items)
+    return __do_carousel(token, 'id')
 
 
 class CarouselNode(template.Node):
@@ -60,24 +48,23 @@ class CarouselNode(template.Node):
         """
         Retrieves the object from the database according to the context.
         """
+        def prepare_string_field(value):
+            if value[0] == value[-1] and value[0] in ('"', "'"):
+                value = value[1:-1]
+            else:  # a template variable was given
+                value = template.Variable(value).resolve(context)
+            return value
+
         obj, name, slug, id = self.carousel_object, self.carousel_name, self.carousel_slug, self.carousel_id
         
         if obj is not None:
             return template.Variable(obj).resolve(context)
 
         if slug is not None:
-            if slug[0] == slug[-1] and slug[0] in ('"', "'"):
-                slug = slug[1:-1]
-            else:  # a template variable was given
-                slug = template.Variable(slug).resolve(context)
-            return Carousel.objects.get(slug=slug)
+            return Carousel.objects.get(slug=prepare_string_field(slug))
 
         if name is not None:
-            if name[0] == name[-1] and name[0] in ('"', "'"):
-                name = name[1:-1]
-            else:  # a template variable was given
-                name = template.Variable(name).resolve(context)
-            return Carousel.objects.get(name=name)
+            return Carousel.objects.get(name=prepare_string_field(name))
         
         try:
             id = int(id)
@@ -95,5 +82,6 @@ class CarouselNode(template.Node):
         if self.max_items:
             max_items = template.Variable(self.max_items).resolve(context)
             elements = elements[:max_items]
+        context['carousel'] = carousel
         context['elements'] = elements
-        return template.loader.render_to_string('carousel/templatetags/carousel.html', context)
+        return render_to_string('carousel/templatetags/carousel.html', context)
