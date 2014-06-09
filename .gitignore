@@ -1,3 +1,4 @@
 *.pyc
 *~
 carousel/locale/**/**/*.mo
+django_carousel.egg-info
